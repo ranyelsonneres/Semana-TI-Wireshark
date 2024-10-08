@@ -1,15 +1,7 @@
 ## Wireshark
 
-### Filtros:
-- Filtra por IP: mostra o tráfego de IP seja destino ou origem:
-  - ```ip.addr == 192.168.1.1 ```
-- Filtra por IP de origem:
-  - ```ip.src == 192.168.0.1```
-- Filtra por IP de destino
-  - ```ip.dst == 192.168.0.1```
-- Filtra por subnet IP 
-  - ```ip.addr = 192.168.0.1/24``` 
-- Filtra por protocolo:
+### Principais filtros:
+- Filtros por Protocolo:
   - ```dns``` 
   - ```http``` 
   - ```ftp``` 
@@ -17,19 +9,56 @@
   - ```ssh``` 
   - ```telnet``` 
   - ```icmp```
-- Exclui um determinado endereço IP:
-  - ```!ip.addr ==192.168.0.1```
-- Filtra por porta TCP 
-  - ```tcp.port == 80``` 
-- Filter TCP port de origem:
-  - ```tcp.srcport == 80``` 
-- Filtra porta TCP de destino:
-  - ```tcp.dstport == 80```
-- Filtra pacotes HTTP no Wireshark com base no campo User-Agent para encontrar tráfego específico de navegadores:
-  - ```http.user_agent contains "Firefox"```
-- Combinação de filtros:
-  - ```tcp.port == 80 && ip.addr == 192.168.0.1```
-- Filtar todos pedidos http get e respostas:
-  - ```http.request or http.response```
-- Filtrar o three way-handshake:
+  - ```udp```
+  - ```tcp```
+  - ```tls```
+- Filtros por endereço IP:
+  - IP de origem: ```ip.src == 192.168.0.1```
+  - IP de destino: ```ip.dst == 192.168.0.1```
+  - Qualquer IP: ```ip.addr == 192.168.1.1 ```
+  - Subnet IP: ```ip.addr = 192.168.0.1/24```
+  - Exclui um determinado endereço IP: ```!ip.addr ==192.168.0.1```
+- Filtros por porta:
+  - Portas específicas: ```tcp.port == 80```
+  - Porta de origem: ```tcp.srcport == 80```
+  - Porta de destino: ```tcp.dstport == 443```
+- Filtros por conteúdo:
+  - Contém uma string: ```tcp contains "GET"```
+  - Contém uma string específica em um protocolo:```http contains "login"```
+- Filtros por tipo de pacote:
+  - Pacotes com erro ICMP: ```icmp.type == 3```
+  - Pacotes SYN: ```tcp.flags.syn == 1```
+  - Pacotes FIN: ```tcp.flags.fin == 1```
+- Filtros combinados:
+  - Protocolo e IP de origem: ```tcp and ip.src == 192.168.0.1```
+  - Porta e protocolo: ```tcp.port == 443 and ip.src == 192.168.0.1```
+  - Negar filtros: ```not ip.addr == 192.168.0.1```
+  - Combinar o protocolo HTTP, TCP e IP:
+    - ```http and ip.src == 192.168.0.1 and tcp.port == 80```
+    - ```tcp.port == 80 && ip.addr == 192.168.0.1```
+    - ```ip.dst == x.x.x.x and udp```
+- Filtros por tempo:
+  - Filtro por tempo específico: ```frame.time >= "2024-10-01 00:00:00"```
+  - Filtro por intervalo de tempo: ```frame.time >= "2024-10-01 00:00:00" && frame.time <= "2024-10-01 01:00:00"```
+- Filtro por interface (endereço MAC):
+  - Interface específica: ```eth.addr == 00:1a:2b:3c:4d:5e```
+- Filtros por tamanho:
+  - Tamanho do pacote: ```frame.len == 128```
+- Filtros por requisições:
+  - Requisições: ```http.request or http.response```
+  - Requisições GET: ```http.request.method == "GET"```
+  - Requisições POST: ```http.request.method == "POST"```
+  - SSL/TLS: ```tls.handshake.type == 1```
+  - DNS (consulta por nome de domínio):
+    - ```dns.qry.name == "example.com"```
+    - ```dns.flags.response == 1```
+- Filtros pro Flags TCP:
+  - Pacotes TCP com a flag SYN (início de conexão): ```tcp.flags.syn == 1 and tcp.flags.ack == 0```
+  - ```tcp.flags.reset```
+  - ```tcp.flags.syn``` 
+  - ```tcp.flags.ack```
+  - ```tcp.flags.syn == 1```
   - ```tcp.flags.syn==1 or (tcp.seq==1 and tcp.ack==1 and tcp.len==0 and tcp.analysis.initial_rtt)```
+- Filtro com base no User-Agent para navegadores:
+  - Firefox: ```http.user_agent contains "Firefox"```
+  - Google Chrome: ```http.user_agent contains "Chrome"```
