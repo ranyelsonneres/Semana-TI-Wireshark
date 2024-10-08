@@ -62,3 +62,24 @@
 - Filtro com base no User-Agent para navegadores:
   - Firefox: ```http.user_agent contains "Firefox"```
   - Google Chrome: ```http.user_agent contains "Chrome"```
+- Filtros de pacotes com Erro:
+  - Checksum incorreto no IP: ```ip.checksum_bad == 1```
+  - Erro de checksum TCP: ```tcp.checksum_bad == 1```
+  - Pacotes com fragmentação: ```ip.flags.df == 0```
+  - Pacotes TCP com erro de retransmissão: ```tcp.analysis.retransmission```
+  - Pacotes TCP com flags de erro: ```tcp.flags == 0x14```
+- Filtro para pacotes UDP:
+  - ```udp```
+  - ```ip.dst == x.x.x.x and udp```
+  - ```udp.dstport == 53```
+- Detecção de anomalias:
+  - Portas UDP específicas: ```udp.dstport == 53```
+  - Pacotes ICMP Echo Request (ping): ```icmp.type == 8```
+  - Pacotes ICMP Echo Reply: ```icmp.type == 0```
+  - Tráfego com janela TCP muito pequena: ```tcp.window_size == 0```
+  - Tráfego HTTP para endereços IP fora da rede: ```ip.dst != 192.168.0.0/24 and http```
+  - Pacotes TCP SYN não acompanhados de ACK: ```tcp.flags.syn == 1 and tcp.flags.ack == 0```
+  - Conexões TCP não fechadas corretamente (sem FIN ou RST): ```tcp.flags.fin == 0 and tcp.flags.rst == 0 and tcp.flags.syn == 0```
+  - Pacotes UDP para o mesmo destino: ```ip.dst == x.x.x.x and udp```
+  - Pacotes TCP com muitas retransmissões: ```tcp.analysis.retransmission```
+  - Solicitações de recursos incomuns: ```http.request.uri contains "admin"```
