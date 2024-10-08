@@ -1,5 +1,6 @@
-# Semana-TI-Wireshark
-Semana-TI-Wireshark
+# UCB: Semana-TI-Wireshark
+
+**Professor**: Ranyelson Neres Carvalho
 
 ### Oficina: Analisando tráfego de rede com Wireshark para identificar padrões
 
