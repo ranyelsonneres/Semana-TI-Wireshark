@@ -1,4 +1,35 @@
 ## Wireshark
 
 ### Filtros:
-- Filtra por IP: mostra o tráfego de IP seja destino ou origem: ```ip.addr == 192.168.1.1 ```
+- Filtra por IP: mostra o tráfego de IP seja destino ou origem:
+  - ```ip.addr == 192.168.1.1 ```
+- Filtra por IP de origem:
+  - ```ip.src == 192.168.0.1```
+- Filtra por IP de destino
+  - ```ip.dst == 192.168.0.1```
+- Filtra por subnet IP 
+  - ```ip.addr = 192.168.0.1/24``` 
+- Filtra por protocolo:
+  - ```dns``` 
+  - ```http``` 
+  - ```ftp``` 
+  - ```arp``` 
+  - ```ssh``` 
+  - ```telnet``` 
+  - ```icmp```
+- Exclui um determinado endereço IP:
+  - ```!ip.addr ==192.168.0.1```
+- Filtra por porta TCP 
+  - ```tcp.port == 80``` 
+- Filter TCP port de origem:
+  - ```tcp.srcport == 80``` 
+- Filtra porta TCP de destino:
+  - ```tcp.dstport == 80```
+- Filtra pacotes HTTP no Wireshark com base no campo User-Agent para encontrar tráfego específico de navegadores:
+  - ```http.user_agent contains "Firefox"```
+- Combinação de filtros:
+  - ```tcp.port == 80 && ip.addr == 192.168.0.1```
+- Filtar todos pedidos http get e respostas:
+  - ```http.request or http.response```
+- Filtrar o three way-handshake:
+  - ```tcp.flags.syn==1 or (tcp.seq==1 and tcp.ack==1 and tcp.len==0 and tcp.analysis.initial_rtt)```
